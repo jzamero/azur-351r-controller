@@ -1,0 +1,227 @@
+# MQTT Command Examples for Azur 351R Controller
+
+This document provides examples of MQTT commands that can be sent to control your Azur 351R receiver.
+
+## Topic Structure
+- Subscribe to: `azur/commands` (send commands to this topic)
+- Receiver status updates are published to: `azur/status`
+
+## Command Format
+Commands should be sent as JSON with the following structure:
+```json
+{
+  "group": "1",
+  "command": "01",
+  "data": "1"
+}
+```
+
+Where:
+- `group`: The command group number
+- `command`: The command number
+- `data`: The command data (optional for some commands)
+
+## Example Commands
+
+### Power Control
+Turn on the receiver:
+```json
+{
+  "group": "1",
+  "command": "01",
+  "data": "1"
+}
+```
+
+Turn off the receiver (standby):
+```json
+{
+  "group": "1",
+  "command": "01",
+  "data": "0"
+}
+```
+
+### Volume Control
+Volume up:
+```json
+{
+  "group": "1",
+  "command": "02"
+}
+```
+
+Volume down:
+```json
+{
+  "group": "1",
+  "command": "03"
+}
+```
+
+Mute on:
+```json
+{
+  "group": "1",
+  "command": "11",
+  "data": "01"
+}
+```
+
+Mute off:
+```json
+{
+  "group": "1",
+  "command": "11",
+  "data": "00"
+}
+```
+
+### Input Selection
+Select BD/DVD input:
+```json
+{
+  "group": "2",
+  "command": "01",
+  "data": "01"
+}
+```
+
+Select CD/Video 1 input:
+```json
+{
+  "group": "2",
+  "command": "01",
+  "data": "02"
+}
+```
+
+Select Video 2 input:
+```json
+{
+  "group": "2",
+  "command": "01",
+  "data": "03"
+}
+```
+
+Select AUX input:
+```json
+{
+  "group": "2",
+  "command": "01",
+  "data": "04"
+}
+```
+
+Select Tuner input:
+```json
+{
+  "group": "2",
+  "command": "01",
+  "data": "06"
+}
+```
+
+Select TV ARC input:
+```json
+{
+  "group": "2",
+  "command": "01",
+  "data": "09"
+}
+```
+
+### Audio Processing
+Select Stereo + Subwoofer mode:
+```json
+{
+  "group": "4",
+  "command": "01",
+  "data": "01"
+}
+```
+
+Cycle through surround modes:
+```json
+{
+  "group": "4",
+  "command": "03"
+}
+```
+
+Get current surround mode:
+```json
+{
+  "group": "4",
+  "command": "05"
+}
+```
+
+### Tuner Controls
+Switch between FM/AM:
+```json
+{
+  "group": "3",
+  "command": "09",
+  "data": "0"  // 0 for FM, 1 for AM
+}
+```
+
+Tune up:
+```json
+{
+  "group": "3",
+  "command": "02"
+}
+```
+
+Tune down:
+```json
+{
+  "group": "3",
+  "command": "03"
+}
+```
+
+Store current frequency to preset 1:
+```json
+{
+  "group": "3",
+  "command": "11",
+  "data": "1"
+}
+```
+
+Recall preset 1:
+```json
+{
+  "group": "3",
+  "command": "12",
+  "data": "1"
+}
+```
+
+### System Information
+Get software version:
+```json
+{
+  "group": "5",
+  "command": "01"
+}
+```
+
+## Status Updates
+The receiver will publish its status to `azur/status` in the following format:
+
+```json
+{
+  "power": "on",
+  "input": "BD/DVD",
+  "volume": "-15",
+  "mute": "off",
+  "surround_mode": "Stereo",
+  "last_command": "#1,01,1",
+  "last_response": "#6,01,1"
+}
+```
